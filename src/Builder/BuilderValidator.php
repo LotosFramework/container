@@ -25,7 +25,7 @@ use Lotos\Container\Builder\Exception\{
     NotOneRealisationRegisteredException,
     InstanceHasNoAlias
 };
-use Ds\Collecion as CollectionInterface;
+use Ds\Deque as CollectionInterface;
 
 class BuilderValidator implements BuilderValidatorInterface
 {
