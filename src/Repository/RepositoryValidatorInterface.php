@@ -11,6 +11,8 @@
 
 namespace Lotos\Container\Repository;
 
+use Ds\Collection as CollectionInterface;
+
 interface RepositoryValidatorInterface
 {
     /**
