@@ -14,7 +14,7 @@ namespace Lotos\Container\Builder;
 use \ReflectionClass;
 use \ReflectionMethod;
 use \ReflectionNamedType;
-use Ds\Collection as CollecionInterface;
+use Ds\Deque as CollecionInterface;
 
 interface BuilderValidatorInterface
 {
