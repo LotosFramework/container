@@ -11,9 +11,9 @@
 
 namespace Lotos\Container;
 
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionParameter;
+use \ReflectionClass;
+use \ReflectionMethod;
+use \ReflectionParameter;
 use Ds\Collection as CollectionInterface;
 use Lotos\Container\Exception\NotRegisteredNamespaceException;
 use Lotos\Container\Builder\Exception\{
