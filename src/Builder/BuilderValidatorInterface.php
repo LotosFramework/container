@@ -13,6 +13,8 @@ namespace Lotos\Container\Builder;
 
 use \ReflectionClass;
 use \ReflectionMethod;
+use \ReflectionNamedType;
+use Ds\Collection as CollecionInterface;
 
 interface BuilderValidatorInterface
 {
