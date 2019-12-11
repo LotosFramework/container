@@ -11,9 +11,9 @@
 
 namespace Lotos\Container\Builder;
 
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionNamedType;
+use \ReflectionClass;
+use \ReflectionMethod;
+use \ReflectionNamedType;
 use Lotos\Container\Builder\Exception\{
     NotInstantiableException,
     ClassHasNotConstructorException,
