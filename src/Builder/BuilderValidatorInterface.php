@@ -11,6 +11,8 @@
 
 namespace Lotos\Container\Builder;
 
+use \ReflectionClass;
+
 interface BuilderValidatorInterface
 {
     /**
