@@ -12,7 +12,7 @@
 namespace Lotos\Container\Repository;
 
 use Ds\Collection as CollectionInterface;
-use ReflectionClass;
+use \ReflectionClass;
 use Lotos\Container\Exception\WrongArgumentTypeException;
 use Lotos\Container\Repository\Exception\{
     SaveAlreadySavedClass,
