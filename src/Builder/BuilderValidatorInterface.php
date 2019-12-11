@@ -14,7 +14,7 @@ namespace Lotos\Container\Builder;
 use \ReflectionClass;
 use \ReflectionMethod;
 use \ReflectionNamedType;
-use Ds\Sequence as CollecionInterface;
+use Ds\Sequence as CollectionInterface;
 
 interface BuilderValidatorInterface
 {
