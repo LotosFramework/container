@@ -80,7 +80,7 @@ class Builder implements BuilderInterface
             $type = $parameter->getType();
             $this->validator->ensureNotNullArgumentType($type);
             $this->validator->ensureNotIgnoredType($type);
-            $ref = new ReflectionClass("$type");
+            $ref = new ReflectionClass($type->getName());
 
             $this->validator->ensureInstanseIsInterface($ref);
             $collection = $this->repository->getByInterface($ref->getName());
