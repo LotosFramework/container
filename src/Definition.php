@@ -15,12 +15,12 @@ use Ds\Collection as CollectionInterface;
 
 class Definition {
 
-    private $class;
-    private $interfaces;
-    private $methods;
-    private $alias;
+    private ?string $class;
+    private CollectionInterface $interfaces;
+    private CollectionInterface $methods;
+    private ?string $alias = null;
+    private ?int $priority = null;
     private $instance;
-    private $priority;
 
     public function __construct(CollectionInterface $collection)
     {

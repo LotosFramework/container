@@ -19,7 +19,7 @@ interface RepositoryInterface
     public function saveClass($class) : void;
     public function saveInterface($interface) : void;
     public function setAlias(string $alias) : void;
-    public function getByAlias(string $alias) : ? Definition;
+    public function getByAlias(string $alias) : ?Definition;
     public function getByInterface(string $interface) : CollectionInterface;
     public function checkExists(string $alias) : bool;
     public function addTypedParam(string $method, string $paramType, string $paramEntity) : void;

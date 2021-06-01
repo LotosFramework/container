@@ -15,13 +15,10 @@ use Ds\Collection as CollectionInterface;
 
 class MethodInstance {
 
-    private $name;
-    private $arguments;
-
-    public function __construct(string $name, CollectionInterface $arguments)
+    public function __construct(
+        private string $name,
+        private CollectionInterface $arguments)
     {
-        $this->name = $name;
-        $this->arguments = $arguments;
     }
 
     public function getName() : string

@@ -27,15 +27,13 @@ use Lotos\Container\Repository\Exception\{
 class Repository implements RepositoryInterface
 {
 
-    private $storage;
-    private $collection;
+    private CollectionInterface $storage;
 
     public function __construct(
-        CollectionInterface $collection,
+        private CollectionInterface $collection,
         ?RepositoryValidatorInterface $validator = null
     )
     {
-        $this->collection = $collection;
         $this->storage = new $collection;
         $this->validator = $validator ?? new RepositoryValidator;
     }

@@ -12,6 +12,10 @@
 namespace Lotos\Container;
 
 use Psr\Container\ContainerInterface;
+use Lotos\Container\{
+    Repository\RepositoryInterface,
+    Builder\BuilderInterface
+};
 use Ds\Collection as CollectionInterface;
 use Lotos\Collection\Collection;
 use Lotos\Container\Exception\WrongArgumentTypeException;
@@ -19,13 +23,10 @@ use Lotos\Container\Exception\WrongArgumentTypeException;
 class Container implements ContainerInterface
 {
 
-    private $repository;
-    private $collection;
-
     public function __construct(
-        ?CollectionInterface $collection = null,
-        ?RepositoryInterface $repository = null,
-        ?BuilderInterface $builder = null
+        private ?CollectionInterface $collection = null,
+        private ?RepositoryInterface $repository = null,
+        private ?BuilderInterface $builder = null
     )
     {
         $this->collection = $collection ?? new Collection;
@@ -52,7 +53,7 @@ class Container implements ContainerInterface
         }
     }
 
-    public function has($id)
+    public function has(string $id) : bool
     {
         return $this->repository->checkExists($id);
     }

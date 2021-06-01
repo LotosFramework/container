@@ -30,7 +30,7 @@ use Ds\Sequence as CollectionInterface;
 class BuilderValidator implements BuilderValidatorInterface
 {
 
-    private $ignoreTypes = [
+    private array $ignoreTypes = [
         'string', 'int', 'bool', 'object', 'array'
     ];
 
