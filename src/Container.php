@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the (c)Lotos framework.
  *
  * (c) McLotos <mclotos@gmail.com>
@@ -109,6 +109,7 @@ class Container implements ContainerInterface
 
     public function setRefreshable() : self
     {
+        //@TODO
         return $this;
     }
 
@@ -139,7 +140,7 @@ class Container implements ContainerInterface
                     ->getMethod($method)
                     ->getArguments()
                     ->toArray()
-                : $arguments) //тут как-то получить аргументы метода
+                : $arguments)
             : $arguments;
 
         return call_user_func_array([$class, $method], $arguments);
