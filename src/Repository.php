@@ -31,7 +31,7 @@ class Repository implements RepositoryInterface
 
     public function __construct(
         private CollectionInterface $collection,
-        ?RepositoryValidatorInterface $validator = null
+        private ?RepositoryValidatorInterface $validator = null
     )
     {
         $this->storage = new $collection;
