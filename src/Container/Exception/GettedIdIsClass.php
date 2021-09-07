@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lotos\Container\Container\Exception;
 
 class GettedIdIsClass extends \Exception

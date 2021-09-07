@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lotos\Container\Container;
 
 use Lotos\Container\Repository\Exception\NotFoundRegisteredRealisationException;
