@@ -1,28 +1,22 @@
 <?php
 
-/*
- * This file is part of the (c)Lotos framework.
- *
- * (c) McLotos <mclotos@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Lotos\Container\Repository;
 
-use Lotos\Container\Definition;
-use Ds\Collection as CollectionInterface;
+use Lotos\Collection\Collection;
 
 interface RepositoryInterface
 {
-    public function saveClass($class) : void;
-    public function saveInterface($interface) : void;
+    public function saveClass(string $class) : void;
+    public function getByClass(string $class) : ?Definition;
+    public function saveInterface(string $interface) : void;
+    public function addParam(string $method, ArgumentEntity $paramValue) : void;
+    public function addParams(string $method, ArgumentsCollection $params) : void;
     public function setAlias(string $alias) : void;
     public function getByAlias(string $alias) : ?Definition;
-    public function getByInterface(string $interface) : CollectionInterface;
+    public function getByInterface(string $interface) : Collection;
     public function checkExists(string $alias) : bool;
-    public function addTypedParam(string $method, string $paramType, string $paramEntity) : void;
-    public function addParam(string $method, $paramValue) : void;
-    public function addParams(string $method, CollectionInterface $params) : void;
+    public function saveInstance(object $object) : void;
+    public function setPriority(int $priority) : void;
 }

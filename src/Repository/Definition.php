@@ -1,31 +1,28 @@
 <?php
 
-/*
- * This file is part of the (c)Lotos framework.
- *
- * (c) McLotos <mclotos@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
-namespace Lotos\Container;
+namespace Lotos\Container\Repository;
 
-use Ds\Collection as CollectionInterface;
+use Lotos\Collection\Collection;
 
 class Definition {
 
     private ?string $class;
-    private CollectionInterface $interfaces;
-    private CollectionInterface $methods;
     private ?string $alias = null;
     private ?int $priority = null;
     private $instance;
 
-    public function __construct(CollectionInterface $collection)
+    public function __construct(
+        private Collection $interfaces,
+        private Collection $methods
+    )
     {
-        $this->interfaces = new $collection;
-        $this->methods = new $collection;
+    }
+
+    public function clearPriority() : void
+    {
+        $this->priority = null;
     }
 
     public function setPriority(int $priority) : void
@@ -63,7 +60,17 @@ class Definition {
         $this->interfaces->push($interface);
     }
 
-    public function setMethod(MethodInstance $method) : void
+    public function removeInterface(string $interface) : void
+    {
+        $this->interfaces->remove($this->interfaces->find($interface));
+    }
+
+    public function getInterfaces() : Collection
+    {
+        return $this->interfaces;
+    }
+
+    public function addMethod(MethodInstance $method) : void
     {
         $this->methods->push($method);
     }
@@ -73,7 +80,10 @@ class Definition {
         try {
             return $this->methods->where('name', $name)->first();
         } catch(\UnderflowException $e) {
-            return new MethodInstance($name, $this->interfaces->newInstance());
+            return MethodFactory::createMethod(
+                $name,
+                ArgumentsCollectionFactory::createCollection()
+            );
         }
     }
 
@@ -89,17 +99,12 @@ class Definition {
         }
     }
 
-    public function getInterfaces() : CollectionInterface
-    {
-        return $this->interfaces;
-    }
-
-    public function setInstance($instance) : void
+    public function setInstance(object $instance) : void
     {
         $this->instance = $instance;
     }
 
-    public function getInstance()
+    public function getInstance() : ?object
     {
         return $this->instance;
     }

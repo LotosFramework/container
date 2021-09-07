@@ -1,97 +1,86 @@
 <?php
 
-/*
- * This file is part of the (c)Lotos framework.
- *
- * (c) McLotos <mclotos@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Lotos\Container;
 
-use Ds\Collection as CollectionInterface;
 use Lotos\Container\Repository\{
     RepositoryInterface,
     RepositoryValidator,
-    RepositoryValidatorInterface
+    DefinitionFactory,
+    Definition,
+    MethodFactory,
+    ArgumentEntity,
+    ArgumentsCollectionFactory
 };
-use Lotos\Container\Exception\WrongArgumentTypeException;
+use \ReflectionClass;
+use Lotos\Collection\Collection;
 use Lotos\Container\Repository\Exception\{
-    RepositoryException,
+    WrongArgumentTypeException,
     SaveAlreadySavedClass,
-    SaveAlreadySavedInterface
+    RepositoryException,
+    SaveAlreadySavedInterface,
+    NotFoundRegisteredRealisationException
 };
 
 class Repository implements RepositoryInterface
 {
-
-    private CollectionInterface $storage;
+    use RepositoryValidator;
 
     public function __construct(
-        private CollectionInterface $collection,
-        private ?RepositoryValidatorInterface $validator = null
+        private Collection $storage
     )
     {
-        $this->storage = new $collection;
-        $this->validator = $validator ?? new RepositoryValidator;
     }
 
-    public function saveClass($class) : void
+    public function saveClass(string $class) : void
     {
         try {
-            $this->validator->ensureInstantiable($class);
-            $this->validator->ensureUniqueClass($this->storage, $class);
-            $entity = new Definition($this->collection);
+            $this->ensureInstantiable($class);
+            $this->ensureUniqueClass($this->storage, $class);
+            $entity = DefinitionFactory::createDefinition(
+                (new ReflectionClass($this->storage))->newInstance()
+            );
             $entity->setClass($class);
             $this->storage->push($entity);
         } catch(WrongArgumentTypeException | SaveAlreadySavedClass $e) {
-            throw new RepositoryException($e->getMessage());
+            throw new RepositoryException($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
     }
 
     public function getByClass(string $class) : Definition
     {
-        return $this->storage->where('class', $class)->first();
-    }
-
-    public function saveInterface($interface) : void
-    {
         try {
-            $this->validator->ensureValidInterface($interface);
-            $this->validator->ensureUniqueInterface($this->storage, $interface);
-            $this->storage->last()->addInterface($interface);
-        } catch(SaveAlreadySavedInterface $e) {
-            throw new RepositoryException($e->getMessage());
+            $this->ensureHasRegisteredDefinition($this->storage, $class);
+            return $this->storage->where('class', $class)->first();
+        } catch(NotFoundRegisteredRealisationException $e) {
+            throw new RepositoryException($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
     }
 
-    public function addTypedParam(string $method, string $paramType, $paramEntity) : void
+    public function saveInterface(string $interface) : void
     {
-        $arguments = new $this->collection();
-        $arguments->push([
-            'type' => $paramType,
-            'entity' => $paramEntity
-        ]);
-        $method = new MethodInstance($method, $arguments);
+        try {
+            $this->ensureValidInterface($interface);
+            $this->ensureUniqueInterface($this->storage, $interface);
+            $this->storage->last()->addInterface($interface);
+        } catch (SaveAlreadySavedInterface $e) {
+            throw new RepositoryException($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+        }
+    }
+
+    public function addParam(string $method, ArgumentEntity $argument) : void
+    {
+        $method = MethodFactory::createMethod(
+            $method,
+            ArgumentsCollectionFactory::createCollection([$argument])
+        );
         $this->storage->last()->addOrUpdate($method);
     }
 
-    public function addParam(string $method, $paramValue) : void
+    public function addParams(string $method, Collection $params) : void
     {
-        $arguments = new $this->collection();
-        $arguments->push([
-            'type' => null,
-            'entity' => $paramValue
-        ]);
-        $method = new MethodInstance($method, $arguments);
-        $this->storage->last()->addOrUpdate($method);
-    }
-
-    public function addParams(string $method, CollectionInterface $params) : void
-    {
-        $method = new MethodInstance($method, $params);
+        $method = MethodFactory::createMethod($method, $params);
         $this->storage->last()->addOrUpdate($method);
     }
 
@@ -102,16 +91,24 @@ class Repository implements RepositoryInterface
 
     public function getByAlias(string $alias) : ?Definition
     {
-        return $this->storage->where('alias', $alias)->first();
+        return ($this->storage->where('alias', $alias)->count() > 0)
+            ? $this->storage->where('alias', $alias)->first()
+            : null;
     }
 
-    public function getByInterface(string $interface) : CollectionInterface
+    public function getByInterface(string $interface) : Collection
     {
        return $this->storage->filter(function($entity) use ($interface) {
             if($entity->getInterfaces()->count() > 0) {
-                return ($entity->getInterfaces()->filter(function($item) use ($interface) {
-                    return ($item == $interface);
-                })->count() > 0);
+                return (
+                    $entity
+                        ->getInterfaces()
+                        ->filter(
+                            function($item) use ($interface) {
+                                return ($item == $interface);
+                            }
+                        )->count() > 0
+                );
             }
             return false;
         });
@@ -119,10 +116,16 @@ class Repository implements RepositoryInterface
 
     public function checkExists(string $alias) : bool
     {
-        return ($this->storage->where('alias', $alias)->count() == 1);
+        return (
+            $this->storage->where('alias', $alias)->count() === 1 ||
+            $this->storage->where('class', $alias)->count() === 1 ||
+            $this->storage->filter(function($item) use ($alias) {
+                return $item->getInterfaces()->contains($alias);
+            })->count() > 0
+        );
     }
 
-    public function saveInstance($object) : void
+    public function saveInstance(object $object) : void
     {
         $this->storage->last()->setInstance($object);
     }
@@ -131,5 +134,4 @@ class Repository implements RepositoryInterface
     {
         $this->storage->last()->setPriority($priority);
     }
-
 }
