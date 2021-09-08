@@ -36,7 +36,7 @@ class Definition {
     /**
      * @var object $instance Готовая сущность объекта, созданная из $class
      */
-    private object $instance;
+    private ?object $instance = null;
 
     /**
      * Конструктор класса принимает два обязательных параметра
