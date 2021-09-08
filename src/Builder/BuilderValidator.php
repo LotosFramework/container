@@ -31,6 +31,16 @@ use Lotos\Container\Builder\Exception\{
 use Lotos\Container\Repository\{Definition, MethodInstance, RepositoryInterface, ArgumentEntity};
 use Lotos\Collection\Collection;
 
+/**
+ * Trait BuilderValidator валидирует параметры билдера
+ *
+ * @author McLotos <mclotos@xakep.ru>
+ * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
+ * @license https://github.com/LotosFramework/Container/LICENSE.md
+ * @package Lotos\Container
+ * @subpackage Builder
+ * @version 1.7
+ */
 trait BuilderValidator
 {
 
@@ -38,6 +48,9 @@ trait BuilderValidator
         'string', 'int', 'bool', 'object', 'array', 'mixed'
     ];
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureInstantiable
+     */
     public function ensureInstantiable(ReflectionClass $instance) : void
     {
         if (!$instance->isInstantiable()) {
@@ -45,6 +58,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureHasConstructor
+     */
     public function ensureHasConstructor(ReflectionClass $instance) : void
     {
         if (is_null($instance->getConstructor())) {
@@ -52,6 +68,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureMethodHasParams
+     */
     public function ensureMethodHasParams(ReflectionMethod $method) : void
     {
         if ($method->getNumberOfParameters() == 0) {
@@ -63,6 +82,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureNotIgnoredType
+     */
     public function ensureNotIgnoredType(ReflectionNamedType $type) : void
     {
         if (in_array($type->getName(), $this->ignoreTypes)) {
@@ -70,6 +92,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureNotNullArgumentType
+     */
     public function ensureNotNullArgumentType(ReflectionParameter $parameter) : void
     {
         if (is_null($parameter->getType())) {
@@ -77,6 +102,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureInstanseIsInterface
+     */
     public function ensureInstanseIsInterface(ReflectionClass $instance) : void
     {
         if (!$instance->isInterface()) {
@@ -84,6 +112,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureHasRegisteredRealisation
+     */
     public function ensureHasRegisteredRealisation(Collection $collection, string $name) : void
     {
         if ($collection->count() < 1) {
@@ -91,6 +122,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureOnlyOneRegisteredRealisation
+     */
     public function ensureOnlyOneRegisteredRealisation(Collection $collection, string $name) : void
     {
         if ($collection->count() !== 1) {
@@ -98,6 +132,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureHasAlias
+     */
     public function ensureHasAlias($instance) : void
     {
         if (is_null($instance->getAlias())) {
@@ -105,6 +142,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureMethodHasRegisteredParams
+     */
     public function ensureMethodHasRegisteredParams(
         RepositoryInterface $repository,
         ReflectionMethod $method
@@ -120,6 +160,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureHasType
+     */
     public function ensureHasType(ReflectionParameter $parameter) : void
     {
         if ($parameter->hasType() === false) {
@@ -127,6 +170,9 @@ trait BuilderValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Builder\BuilderValidatorInterface::ensureArgumentHasValidType
+     */
     public function ensureArgumentHasValidType(
         ArgumentEntity $entity,
         ReflectionParameter $parameter) : void {
