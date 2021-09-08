@@ -14,8 +14,22 @@ use Lotos\Container\Repository\Exception\{
     NotFoundRegisteredRealisationException
 };
 
+/**
+ * Trait RepositoryValidator валидирует параметры, сохраняемые в репозиторий
+ *
+ * @author McLotos <mclotos@xakep.ru>
+ * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
+ * @license https://github.com/LotosFramework/Container/LICENSE.md
+ * @package Lotos\Container
+ * @subpackage Repository
+ * @version 1.7
+ */
 trait RepositoryValidator
 {
+
+    /**
+     * @see Lotos\Container\Repository\RepositoryValidatorInterface::ensureUniqueClass
+     */
     public function ensureUniqueClass(Collection $repository, string $class) : void
     {
         if($repository->where('class', $class)->count() > 0) {
@@ -23,6 +37,9 @@ trait RepositoryValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Repository\RepositoryValidatorInterface::ensureUniqueInterface
+     */
     public function ensureUniqueInterface(Collection $repository, string $interface) : void
     {
         $repository->map(function($entity) use ($interface) {
@@ -36,6 +53,9 @@ trait RepositoryValidator
         });
     }
 
+    /**
+     * @see Lotos\Container\Repository\RepositoryValidatorInterface::ensureInstantiable
+     */
     public function ensureInstantiable(string $class) : void
     {
         try {
@@ -48,6 +68,9 @@ trait RepositoryValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Repository\RepositoryValidatorInterface::ensureValidInterface
+     */
     public function ensureValidInterface(string $interface) : void
     {
         try {
@@ -60,6 +83,9 @@ trait RepositoryValidator
         }
     }
 
+    /**
+     * @see Lotos\Container\Repository\RepositoryValidatorInterface::ensureHasRegisteredDefinition
+     */
     public function ensureHasRegisteredDefinition(Collection $repository, string $class) : void
     {
         if ($this->storage->where('class', $class)->count() === 0) {
