@@ -22,11 +22,35 @@ use Lotos\Container\Container\{ContainerValidator, ContainerExtended};
 use \InvalidArgumentException;
 use Lotos\Collection\Collection;
 
+/**
+ * Класс Container используется для обработки зависимостей создаваемых объектов
+ *
+ * @author McLotos <mclotos@xakep.ru>
+ * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
+ * @license https://github.com/LotosFramework/Container/LICENSE.md
+ * @package Lotos\Container
+ * @version 1.7
+ */
 class Container implements ContainerInterface
 {
+    /**
+     * @see Lotos\Container\Container\ContainerValidator
+     */
     use ContainerValidator;
+
+    /**
+     * @see Lotos\Container\Container\ContainerExtended
+     */
     use ContainerExtended;
 
+    /**
+     * Контейнер всегда должен получать Репозиторий и Билдер в качестве аргументов.
+     * Репозиторий будет нужен для хранения сущностей, а Билдер для их сборки
+     *
+     * @method __construct
+     * @param Lotos\Container\Repository\RepositoryInterface $repository
+     * @param Lotos\Container\Builder\RepositoryInterface $builder
+     */
     public function __construct(
         private RepositoryInterface $repository,
         private BuilderInterface $builder
@@ -34,6 +58,9 @@ class Container implements ContainerInterface
     {
     }
 
+    /**
+     * @see PSR-11
+     */
     public function get(string $id)
     {
         try {
@@ -56,6 +83,9 @@ class Container implements ContainerInterface
         }
     }
 
+    /**
+     * @see PSR-11
+     */
     public function has(string $id) : bool
     {
         return $this->repository->checkExists($id);

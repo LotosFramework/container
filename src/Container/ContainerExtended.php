@@ -9,6 +9,16 @@ use Lotos\Container\Container\Exception\{GettedIdIsInterface, GettedIdIsAlias, G
 use \ReflectionClass;
 use Lotos\Container\Repository\RepositoryInterface;
 
+/**
+ * Trait ContainerExtended раширяет функционал контейнера
+ *
+ * @author McLotos <mclotos@xakep.ru>
+ * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
+ * @license https://github.com/LotosFramework/Container/LICENSE.md
+ * @package Lotos\Container
+ * @subpackage Container
+ * @version 1.7
+ */
 trait ContainerExtended
 {
     public function saveClass($class) : self
