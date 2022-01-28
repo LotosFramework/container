@@ -45,7 +45,7 @@ trait ContainerExtended
     {
         if (is_object($name)) {
             $class = $name;
-        } elseif ($this->isAlias($name)) {
+        } elseif ($this->isRegisteredAlias($name)) {
             $class = $this->repository->getByAlias($name)->getClass();
         }
         $this->repository->addTypedParam('__construct', $interface, $class);
@@ -88,11 +88,11 @@ trait ContainerExtended
 
     public function call(string $alias, string $method, array $arguments = [])
     {
-        $class = ($this->isAlias($alias))
+        $class = ($this->isRegisteredAlias($alias))
             ? $this->get($alias)
             : $this->builder->build($alias);
         $arguments = (empty($arguments))
-            ? ($this->isAlias($alias)
+            ? ($this->isRegisteredAlias($alias)
                 ? $this->repository
                     ->getByAlias($alias)
                     ->getMethod($method)
@@ -108,6 +108,16 @@ trait ContainerExtended
     {
         $this->repository->saveInstance($object);
         return $this;
+    }
+
+    public function isRegisteredAlias(string $alias) : bool
+    {
+        try {
+            $this->isAlias($alias);
+            return false;
+        } catch(GettedIdIsAlias $e) {
+            return true;
+        }
     }
 
     public function getRepository() : RepositoryInterface
