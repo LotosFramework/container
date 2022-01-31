@@ -69,7 +69,7 @@ class Container implements ContainerInterface
             $this->isInterface($id);
             $this->isClass($id);
         } catch (NotFoundExceptionInterface $e) {
-            throw new NotFoundRegisteredRealisationException($e->getMessage());
+            throw new NotFoundExceptionInterface($e->getMessage());
         } catch (GettedIdIsAlias) {
             return $this->builder->build(
                 $this->repository->getByAlias($id)->getClass()
