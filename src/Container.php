@@ -16,7 +16,8 @@ use Lotos\Container\{
 use Lotos\Container\Container\Exception\{
     GettedIdIsAlias,
     GettedIdIsInterface,
-    GettedIdIsClass
+    GettedIdIsClass,
+    NotFoundException
 };
 use Lotos\Container\Container\{ContainerValidator, ContainerExtended};
 use \InvalidArgumentException;
@@ -69,7 +70,7 @@ class Container implements ContainerInterface
             $this->isInterface($id);
             $this->isClass($id);
         } catch (NotFoundExceptionInterface $e) {
-            throw new NotFoundExceptionInterface($e->getMessage());
+            throw new NotFoundException($e->getMessage());
         } catch (GettedIdIsAlias) {
             return $this->builder->build(
                 $this->repository->getByAlias($id)->getClass()
