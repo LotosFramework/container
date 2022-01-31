@@ -65,10 +65,10 @@ class Container implements ContainerInterface
     public function get(string $id)
     {
         try {
-            $this->ensureHasId($id);
             $this->isAlias($id);
             $this->isInterface($id);
             $this->isClass($id);
+            $this->ensureHasId($id);
         } catch (NotFoundExceptionInterface $e) {
             throw new NotFoundException($e->getMessage());
         } catch (GettedIdIsAlias) {
