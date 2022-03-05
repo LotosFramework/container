@@ -20,6 +20,7 @@
         "php-ds/php-ds": "^1.4.0",
         "psr/container": "^2.0.0",
         "lotos/builder": "^2.0.0",
-        "lotos/repository": "^2.0.0"
+        "lotos/repository": "^2.0.0",
+        "lotos/collection": "^2.0.0"
     }
 }
