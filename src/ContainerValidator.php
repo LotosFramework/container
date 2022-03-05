@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Lotos\Container\Container;
+namespace Lotos\DI\Container;
 
-use Lotos\Container\Repository\Exception\NotFoundRegisteredRealisationException;
-use Lotos\Container\Container\Exception\{GettedIdIsInterface, GettedIdIsAlias, GettedIdIsClass};
+use Lotos\DI\Repository\Exception\NotFoundRegisteredRealisationException;
+use Lotos\DI\Container\Exception\{GettedIdIsInterface, GettedIdIsAlias, GettedIdIsClass};
 use \ReflectionClass;
 
 /**
@@ -14,9 +14,9 @@ use \ReflectionClass;
  * @author McLotos <mclotos@xakep.ru>
  * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
  * @license https://github.com/LotosFramework/Container/LICENSE.md
- * @package Lotos\Container
+ * @package Lotos\DI
  * @subpackage Container
- * @version 1.7
+ * @version 2.0.0
  */
 trait ContainerValidator
 {
@@ -25,7 +25,7 @@ trait ContainerValidator
      *
      * @method ensureHasId
      * @param string $id Идентификатор по которому проверяем что есть зарегистрированные реализации
-     * @throws Lotos\Container\Repository\Exception\NotFoundRegisteredRealisationException
+     * @throws Lotos\DI\Repository\Exception\NotFoundRegisteredRealisationException
      * @return void
      */
     private function ensureHasId(string $id) : void
@@ -40,7 +40,7 @@ trait ContainerValidator
      *
      * @method isAlias
      * @param string $id Алиас,
-     * @throws Lotos\Container\Container\Exception\GettedIdIsAlias
+     * @throws Lotos\DI\Container\Exception\GettedIdIsAlias
      * @return void
      */
     private function isAlias(string $id) : void
@@ -55,7 +55,7 @@ trait ContainerValidator
      *
      * @method isInterface
      * @param string $id Путь к интерфейсу
-     * @throws Lotos\Container\Container\Exception\GettedIdIsInterface
+     * @throws Lotos\DI\Container\Exception\GettedIdIsInterface
      * @return void
      */
     private function isInterface(string $id) : void
@@ -70,7 +70,7 @@ trait ContainerValidator
      *
      * @method isClass
      * @param string $id Путь к rkfccклассу
-     * @throws Lotos\Container\Container\Exception\GettedIdIsClass
+     * @throws Lotos\DI\Container\Exception\GettedIdIsClass
      * @return void
      */
     private function isClass(string $id) : void

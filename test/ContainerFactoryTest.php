@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LotosTest\Container;
 
 use PHPUnit\Framework\TestCase;
-use Lotos\Container\{
+use Lotos\DI\Container\{
     ContainerFactory,
     Container,
     RepositoryFactory,

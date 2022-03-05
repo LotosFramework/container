@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Lotos\Container;
+namespace Lotos\DI\Container;
 
 use Psr\Container\ContainerInterface;
 
-use Lotos\Container\{
+use Lotos\DI\{
     Repository\RepositoryInterface,
     Builder\BuilderInterface
 };
@@ -17,8 +17,9 @@ use Lotos\Container\{
  * @author McLotos <mclotos@xakep.ru>
  * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
  * @license https://github.com/LotosFramework/Container/LICENSE.md
- * @package Lotos\Container
- * @version 1.7
+ * @package Lotos\DI
+ * @subpackage Container
+ * @version 2.0.0
  */
 class ContainerFactory
 {
@@ -29,11 +30,14 @@ class ContainerFactory
      * Репозиторий будет нужен для хранения сущностей, а Билдер для их сборки
      *
      * @method createContainer
-     * @param Lotos\Container\Repository\RepositoryInterface $repository
-     * @param Lotos\Container\Builder\RepositoryInterface $builder
+     * @param Lotos\DI\Repository\RepositoryInterface $repository
+     * @param Lotos\DI\Builder\RepositoryInterface $builder
      * @return Psr\Container\ContainerInterface
      */
-    public static function createContainer(RepositoryInterface $repository, BuilderInterface $builder) : ContainerInterface
+    public static function createContainer(
+        RepositoryInterface $repository,
+        BuilderInterface $builder
+    ) : ContainerInterface
     {
         return new Container(repository: $repository, builder: $builder);
     }

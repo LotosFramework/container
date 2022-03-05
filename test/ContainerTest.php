@@ -6,7 +6,7 @@ namespace LotosTest\Container;
 
 use PHPUnit\Framework\TestCase;
 
-use Lotos\Container\{Container, ContainerFactory, RepositoryFactory, BuilderFactory};
+use Lotos\DI\Container\{Container, ContainerFactory, RepositoryFactory, BuilderFactory};
 use Lotos\Collection\CollectionFactory;
 
 class TestContainerClass implements RequestInterface {}

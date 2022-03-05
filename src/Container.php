@@ -2,26 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Lotos\Container;
+namespace Lotos\DI\Container;
 
 use Psr\Container\{
     ContainerInterface,
-    ContainerExceptionInterface,
     NotFoundExceptionInterface
 };
-use Lotos\Container\{
+use \Exception;
+use Lotos\DI\{
     Repository\RepositoryInterface,
     Builder\BuilderInterface,
 };
-use Lotos\Container\Container\Exception\{
+use Lotos\DI\Container\Exception\{
     GettedIdIsAlias,
     GettedIdIsInterface,
     GettedIdIsClass,
-    NotFoundException
+    NotFoundException,
+    ContainerException
 };
-use Lotos\Container\Container\{ContainerValidator, ContainerExtended};
-use \InvalidArgumentException;
-use Lotos\Collection\Collection;
 
 /**
  * Класс Container используется для обработки зависимостей создаваемых объектов
@@ -29,18 +27,19 @@ use Lotos\Collection\Collection;
  * @author McLotos <mclotos@xakep.ru>
  * @copyright https://github.com/LotosFramework/Container/COPYRIGHT.md
  * @license https://github.com/LotosFramework/Container/LICENSE.md
- * @package Lotos\Container
- * @version 1.7
+ * @package Lotos\DI
+ * @subpackage Container
+ * @version 2.0.0
  */
 class Container implements ContainerInterface
 {
     /**
-     * @see Lotos\Container\Container\ContainerValidator
+     * @see Lotos\DI\Container\ContainerValidator
      */
     use ContainerValidator;
 
     /**
-     * @see Lotos\Container\Container\ContainerExtended
+     * @see Lotos\DI\Container\ContainerExtended
      */
     use ContainerExtended;
 
@@ -49,8 +48,8 @@ class Container implements ContainerInterface
      * Репозиторий будет нужен для хранения сущностей, а Билдер для их сборки
      *
      * @method __construct
-     * @param Lotos\Container\Repository\RepositoryInterface $repository
-     * @param Lotos\Container\Builder\RepositoryInterface $builder
+     * @param Lotos\DI\Repository\RepositoryInterface $repository
+     * @param Lotos\DI\Builder\BuilderInterface $builder
      */
     public function __construct(
         private RepositoryInterface $repository,
@@ -81,6 +80,8 @@ class Container implements ContainerInterface
             );
         } catch(GettedIdIsClass) {
             return $this->builder->build($id);
+        } catch (Exception $e) {
+            throw new ContainerException($e->getMessage());
         }
     }
 
