@@ -7,7 +7,16 @@ composer require lotos/container
 
 ## Установка зависимостей
 ```php
-$container = new Lotos\Container\Container;
+$collection = CollectionFactory::createCollection();
+$repository = RepositoryFactory::createRepository($collection->newInstance());
+
+$container = ContainerFactory::createContainer(
+    repository: $repository,
+    builder: BuilderFactory::createBuilder(
+        repository: $repository,
+        collection: $collection
+    )
+);
 
 $container->saveClass(Lotos\Http\ServerRequestFactory::class)
     ->forInterface(Psr\Http\Message\ServerRequestFactoryInterface::class)
