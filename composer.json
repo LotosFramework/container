@@ -11,7 +11,7 @@
     "autoload": {
         "psr-4": {
             "Lotos\\DI\\Container\\": "src/",
-            "Lotos\\DI\\Container\\Exception\\": "src/Exception/",
+            "Lotos\\DI\\Container\\Exception\\": "src/Exception/"
         }
     },
     "minimum-stability": "stable",
