@@ -7,10 +7,10 @@ namespace LotosTest\Container;
 use PHPUnit\Framework\TestCase;
 use Lotos\DI\Container\{
     ContainerFactory,
-    Container,
-    RepositoryFactory,
-    BuilderFactory
+    Container
 };
+use Lotos\DI\Repository\Factories\RepositoryFactory;
+use Lotos\DI\Builder\BuilderFactory;
 use Lotos\Collection\CollectionFactory;
 
 class ContainerFactoryTest extends TestCase

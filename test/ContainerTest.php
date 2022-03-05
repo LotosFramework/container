@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
-namespace LotosTest\Container;
+namespace LotosTest\DI\Container;
 
 use PHPUnit\Framework\TestCase;
 
-use Lotos\DI\Container\{Container, ContainerFactory, RepositoryFactory, BuilderFactory};
+use Lotos\DI\Container\{Container, ContainerFactory};
+use Lotos\DI\Repository\Factories\RepositoryFactory;
+use Lotos\DI\Builder\BuilderFactory;
 use Lotos\Collection\CollectionFactory;
+
+interface RequestInterface {}
 
 class TestContainerClass implements RequestInterface {}
 

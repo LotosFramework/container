@@ -6,7 +6,9 @@ namespace LotosTest\Container;
 
 use PHPUnit\Framework\TestCase;
 
-use Lotos\DI\Container\{Container, ContainerFactory, RepositoryFactory, BuilderFactory};
+use Lotos\DI\Container\{Container, ContainerFactory};
+use Lotos\DI\Repository\Factories\RepositoryFactory;
+use Lotos\DI\Builder\BuilderFactory;
 use Lotos\Collection\CollectionFactory;
 
 class ContainerExtendedTest extends TestCase
